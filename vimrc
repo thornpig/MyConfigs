@@ -6,6 +6,24 @@ let mapleader = ","
 "use system clipboard
 set clipboard=unnamed
 
+"color setting
+set t_Co=256
+set termguicolors
+if &term =~# '^screen'
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+
+"highlight the column past the width limit (usually 80)
+set colorcolumn=81
+
+"make tab show up red. To replace tab with spaces, use :retab.
+syn match tab display "\t"
+hi link tab Error
+
+"undo persistence
+set undodir=~/.vim/undo
+set undofile
 
 syntax on
 set nocompatible
@@ -25,12 +43,22 @@ set mouse=a		" Enable mouse usage (all modes) in terminals
 set autoindent
 set smarttab
 set expandtab
-set shiftwidth=4
+set shiftwidth=2
+
 
 
 ""map dd to deleteing (yanking to black hole register)
 nnoremap d "_d
 vnoremap d "_d
+
+"clang-format mapping
+" map <leader>f :py3f /usr/local/share/clang/clang-format.py<cr>
+" " imap <C-leader-f> <c-o>:py3f /usr/local/share/clang/clang-format.py<cr>
+" function! Formatonsave()
+"   let l:formatdiff = 1
+"   py3f /usr/local/share/clang/clang-format.py
+" endfunction
+" autocmd BufWritePre *.h,*.cc,*.cpp call Formatonsave()
 
 
 """"install plugins""""
@@ -53,12 +81,17 @@ call plug#begin('~/.vim/plugged')
     Plug 'shougo/neosnippet-snippets'
     Plug 'shougo/neosnippet.vim'
     Plug 'zchee/deoplete-jedi'
+    " Plug 'zchee/deoplete-clang'
+    Plug 'shougo/deoplete-clangx'
     Plug 'davidhalter/jedi-vim'
     Plug 'sheerun/vim-polyglot'
     Plug 'nvie/vim-flake8'
     Plug '/usr/local/opt/fzf'
     Plug 'junegunn/fzf.vim'
     Plug 'tpope/vim-obsession'
+    Plug 'nacitar/a.vim'
+    Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'rhysd/vim-clang-format'
 call plug#end()
 
 """"plugin settings""""
@@ -68,6 +101,7 @@ colorscheme hybrid
 
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#clang#libclang_path = '/usr/local/Cellar/llvm/7.0.1/lib/libclang.dylib'
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
@@ -80,12 +114,12 @@ smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 " SuperTab like snippets' behavior.
-    imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-         \ "\<Plug>(neosnippet_expand_or_jump)"
-         \: pumvisible() ? "\<C-n>" : "\<TAB>"
-        smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-             \ "\<Plug>(neosnippet_expand_or_jump)"
-             \: "\<TAB>"
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+     \ "\<Plug>(neosnippet_expand_or_jump)"
+     \: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+     \ "\<Plug>(neosnippet_expand_or_jump)"
+     \: "\<TAB>"
 
 " For conceal markers.
 if has('conceal')
@@ -111,6 +145,8 @@ let python_highlight_all=1
 "vim-obsession
 nnoremap <leader>os :Obsess<CR>
 
+"a.vim
+map <C-a> :A<CR>
 
 
 

@@ -1,0 +1,130 @@
+""""built-in settings""""
+
+"change leader key
+let mapleader = ","
+
+"use system clipboard
+set clipboard=unnamedplus
+
+"color setting
+set t_Co=256
+" set termguicolors
+if &term =~# '^screen'
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+
+"highlight the column past the width limit (usually 80)
+set colorcolumn=81
+
+"make tab show up red. To replace tab with spaces, use :retab.
+syn match tab display "\t"
+hi link tab Error
+
+"undo persistence
+set undodir=~/.vim/undo
+set undofile
+
+syntax on
+set nocompatible
+set backspace=indent,eol,start
+set nu
+set ruler
+set showcmd		" Show (partial) command in status line.
+set showmatch		" Show matching brackets.
+set ignorecase		" Do case insensitive matching
+set smartcase		" Do smart case matching
+set hlsearch            " highlight matches
+set incsearch		" Incremental search
+set autowrite		" Automatically save before commands like :next and :make
+set hidden             " Hide buffers when they are abandoned
+set mouse=a		" Enable mouse usage (all modes) in terminals
+
+set autoindent
+set smarttab
+set expandtab
+set shiftwidth=2
+
+""map dd to deleteing (yanking to black hole register)
+nnoremap d "_d
+vnoremap d "_d
+
+"clang-format mapping
+" map <leader>f :py3f /usr/local/share/clang/clang-format.py<cr>
+" " imap <C-leader-f> <c-o>:py3f /usr/local/share/clang/clang-format.py<cr>
+" function! Formatonsave()
+"   let l:formatdiff = 1
+"   py3f /usr/local/share/clang/clang-format.py
+" endfunction
+" autocmd BufWritePre *.h,*.cc,*.cpp call Formatonsave()
+
+
+""""install plugins""""
+call plug#begin('~/.vim/plugged')
+    Plug 'scrooloose/nerdtree'
+    Plug 'Xuyuanp/nerdtree-git-plugin'
+    Plug 'w0rp/ale'
+"    Plug 'scrooloose/syntastic'
+    Plug 'flazz/vim-colorschemes'
+    Plug 'scrooloose/nerdcommenter'
+    " Plug 'tpope/vim-commentary'
+    Plug 'nathanaelkane/vim-indent-guides'
+    " Plug 'wincent/command-t'
+    " if has('nvim')
+    "     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    " else
+    "     Plug 'Shougo/deoplete.nvim'
+    "     Plug 'roxma/nvim-yarp'
+    "     Plug 'roxma/vim-hug-neovim-rpc'
+    " endif
+    " Plug 'shougo/neosnippet-snippets'
+    " Plug 'shougo/neosnippet.vim'
+    " Plug 'zchee/deoplete-jedi'
+    " " Plug 'zchee/deoplete-clang'
+    " Plug 'shougo/deoplete-clangx'
+    Plug 'davidhalter/jedi-vim'
+    Plug 'sheerun/vim-polyglot'
+    Plug 'nvie/vim-flake8'
+    Plug '/usr/local/opt/fzf'
+    Plug 'junegunn/fzf.vim'
+    Plug 'tpope/vim-obsession'
+    Plug 'nacitar/a.vim'
+    Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'rhysd/vim-clang-format'
+    Plug 'wincent/vim-clipper'
+call plug#end()
+
+""""plugin settings""""
+
+"vim-colorschemes
+set background=dark
+colorscheme hybrid
+
+
+" For conceal markers.
+if has('conceal')
+      set conceallevel=2 concealcursor=niv
+endif
+
+"Use NERDTree
+let NERDTreeQuitOnOpen=1
+let NERDTreeWinSize=25
+let NERDTreeQuitOnOpen=0
+map <C-n> :NERDTreeToggle<CR>
+
+" " Add spaces after comment delimiters by default
+  let g:NERDSpaceDelims = 1
+" " Use compact syntax for prettified multi-line comments
+"   let g:NERDCompactSexyComs = 1
+" " Align line-wise comment delimiters flush left instead of following code
+  let g:NERDDefaultAlign = 'left'
+
+"python highlight
+let python_highlight_all=1
+
+"vim-obsession
+nnoremap <leader>os :Obsess<CR>
+
+"a.vim
+map <C-a> :A<CR>
+

@@ -1,0 +1,12 @@
+Host dev
+    HostName devvm399.atn1.facebook.com
+# used to setting up tunnel for clipper
+Host dev-clipper
+  ControlMaster no
+  ControlPath none
+  ExitOnForwardFailure yes
+  HostName devvm399.atn1.facebook.com
+  RemoteForward 8377 localhost:8377
+Host *
+    XAuthLocation /opt/X11/bin/xauth
+

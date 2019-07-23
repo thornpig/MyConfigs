@@ -1,113 +1,119 @@
-""""built-in settings""""
 
-"change leader key let mapleader = "," 
-"use system clipboard
-set clipboard=unnamed
+# Path to your oh-my-zsh installation.
+export ZSH="/Users/zackzhu/.oh-my-zsh"
 
-"color setting
-set t_Co=256
-set termguicolors
-if &term =~# '^screen'
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-endif
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="avit"
 
-"highlight the column past the width limit (usually 80)
-set colorcolumn=81
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
-"make tab show up red. To replace tab with spaces, use :retab.
-syn match tab display "\t"
-hi link tab Error
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
 
-"undo persistence
-set undodir=~/.vim/undo
-set undofile
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
 
-syntax on
-set nocompatible
-set backspace=indent,eol,start
-set nu
-set ruler
-set showcmd		" Show (partial) command in status line.
-set showmatch		" Show matching brackets.
-set ignorecase		" Do case insensitive matching
-set smartcase		" Do smart case matching
-set hlsearch            " highlight matches
-set incsearch		" Incremental search
-set autowrite		" Automatically save before commands like :next and :make
-set hidden             " Hide buffers when they are abandoned
-set mouse=a		" Enable mouse usage (all modes) in terminals
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
 
-set autoindent
-set smarttab
-set expandtab
-set shiftwidth=2
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
 
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
 
-""map dd to deleteing (yanking to black hole register)
-nnoremap d "_d
-vnoremap d "_d
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
 
-""""install plugins""""
-call plug#begin('~/.vim/plugged')
-    Plug 'scrooloose/nerdtree'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'w0rp/ale'
-"    Plug 'scrooloose/syntastic'
-    Plug 'flazz/vim-colorschemes'
-    Plug 'scrooloose/nerdcommenter'
-    " Plug 'tpope/vim-commentary'
-    Plug 'nathanaelkane/vim-indent-guides'
-    Plug 'shougo/neosnippet-snippets'
-    Plug 'shougo/neosnippet.vim'
-    Plug 'davidhalter/jedi-vim'
-    Plug 'sheerun/vim-polyglot'
-    Plug 'nvie/vim-flake8'
-    Plug '/usr/local/opt/fzf'
-    Plug 'junegunn/fzf.vim'
-    Plug 'tpope/vim-obsession'
-    Plug 'nacitar/a.vim'
-    Plug 'ctrlpvim/ctrlp.vim'
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
 
-call plug#end()
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
 
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-""""plugin settings""""
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
 
-"vim-colorschemes
-colorscheme hybrid
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
 
-"CoC
-" use <tab> for trigger completion and navigate to the next complete item
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+  git
+)
 
-" For conceal markers.
-if has('conceal')
-      set conceallevel=2 concealcursor=niv
-  endif
+source $ZSH/oh-my-zsh.sh
 
-"Use NERDTree
-let NERDTreeQuitOnOpen=1
-let NERDTreeWinSize=25
-let NERDTreeQuitOnOpen=0
-map <C-n> :NERDTreeToggle<CR>
+# User configuration
 
-" " Add spaces after comment delimiters by default
-  let g:NERDSpaceDelims = 1
-" " Use compact syntax for prettified multi-line comments
-"   let g:NERDCompactSexyComs = 1
-" " Align line-wise comment delimiters flush left instead of following code
-  let g:NERDDefaultAlign = 'left'
+# export MANPATH="/usr/local/man:$MANPATH"
 
-"python highlight
-let python_highlight_all=1
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
 
-"vim-obsession
-nnoremap <leader>os :Obsess<CR>
+# Preferred editor for local and remote sessions
+ # if [[ -n $SSH_CONNECTION ]]; then
+ #   export EDITOR='vim'
+ # else
+ #   export EDITOR='mvim'
+ # fi
 
-"a.vim
-map <C-a> :A<CR>
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/rsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+export PATH=$PATH:"."
+
+export EDITOR='vim'
+export VISUAL='vim'
+set -o vi
+alias ls="ls -G"
+
+export FBANDROID_DIR=/Users/zackzhu/fbsource/fbandroid
+alias quicklog_update=/Users/zackzhu/fbsource/fbandroid/scripts/quicklog/quicklog_update.sh
+alias qlu=quicklog_update
+
+# added by setup_fb4a.sh
+export ANDROID_SDK=/opt/android_sdk
+export ANDROID_NDK_REPOSITORY=/opt/android_ndk
+export ANDROID_HOME=${ANDROID_SDK}
+export PATH=${PATH}:${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools
+
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+alias fz='fzf --preview "bat --style=numbers --color=always {}" --bind "enter:execute(vi {})+abort,ctrl-y:execute-silent(echo {} | pbcopy)+abort"'
+export FZF_DEFAULT_COMMAND='fd -t f --no-ignore --hidden --follow --exclude .git --exclude .hg'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd -t d --no-ignore --hidden --follow --exclude .git --exclude .hg"

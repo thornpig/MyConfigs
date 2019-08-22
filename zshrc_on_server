@@ -95,16 +95,24 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+source /usr/facebook/ops/rc/master.zshrc
 export PATH="$HOME/www/scripts/bin/":".":$PATH
 
 export EDITOR='vim'
 export VISUAL='vim'
 set -o vi
 
-alias vi='/usr/local/bin/vim'
 # Colorize the ls output
 alias ls='ls --color=auto'
 # Use a long listing format
 alias ll='ls -la'
 # Pipe anything into `clip` to forward it to Clipper
-alias clip="nc localhost 8377"
+# alias clip="~/clip.sh"
+# function clip { ~/clip.sh; }
+# export -f clip
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+alias fz='fzf --preview "cat {}" --bind "enter:execute(vi {})+abort,ctrl-y:execute-silent(echo {} | clip)+abort"'
+export FZF_DEFAULT_COMMAND='fd -t f --no-ignore --hidden --follow --exclude .git --exclude .hg'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd -t d --no-ignore --hidden --follow --exclude .git --exclude .hg"

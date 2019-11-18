@@ -110,3 +110,10 @@ export ANDROID_SDK=/opt/android_sdk
 export ANDROID_NDK_REPOSITORY=/opt/android_ndk
 export ANDROID_HOME=${ANDROID_SDK}
 export PATH=${PATH}:${ANDROID_SDK}/tools:${ANDROID_SDK}/platform-tools
+
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+alias fz='fzf --preview "bat --style=numbers --color=always {}" --bind "enter:execute(vi {})+abort,ctrl-y:execute-silent(echo {} | pbcopy)+abort"'
+export FZF_DEFAULT_COMMAND='fd -t f --no-ignore --hidden --follow --exclude .git --exclude .hg'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd -t d --no-ignore --hidden --follow --exclude .git --exclude .hg"

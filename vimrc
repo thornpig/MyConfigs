@@ -25,6 +25,7 @@ hi link tab Error
 set undodir=~/.vim/undo
 set undofile
 
+filetype plugin on
 syntax on
 set nocompatible
 set backspace=indent,eol,start
@@ -46,111 +47,53 @@ set expandtab
 set shiftwidth=2
 
 
-
 ""map dd to deleteing (yanking to black hole register)
 nnoremap d "_d
 vnoremap d "_d
 
-"clang-format mapping
-" map <leader>f :py3f /usr/local/share/clang/clang-format.py<cr>
-" " imap <C-leader-f> <c-o>:py3f /usr/local/share/clang/clang-format.py<cr>
-" function! Formatonsave()
-"   let l:formatdiff = 1
-"   py3f /usr/local/share/clang/clang-format.py
-" endfunction
-" autocmd BufWritePre *.h,*.cc,*.cpp call Formatonsave()
-
 
 """"install plugins""""
 call plug#begin('~/.vim/plugged')
-    Plug 'scrooloose/nerdtree'
-    Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'w0rp/ale'
-"    Plug 'scrooloose/syntastic'
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'microsoft/python-language-server'
     Plug 'flazz/vim-colorschemes'
     Plug 'scrooloose/nerdcommenter'
-    " Plug 'tpope/vim-commentary'
     Plug 'nathanaelkane/vim-indent-guides'
-    if has('nvim')
-        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    else
-        Plug 'Shougo/deoplete.nvim'
-        Plug 'roxma/nvim-yarp'
-        Plug 'roxma/vim-hug-neovim-rpc'
-    endif
-    Plug 'shougo/neosnippet-snippets'
-    Plug 'shougo/neosnippet.vim'
-    Plug 'zchee/deoplete-jedi'
-    " Plug 'zchee/deoplete-clang'
-    Plug 'shougo/deoplete-clangx'
-    Plug 'davidhalter/jedi-vim'
-    Plug 'sheerun/vim-polyglot'
-    Plug 'nvie/vim-flake8'
     Plug '/usr/local/opt/fzf'
     Plug 'junegunn/fzf.vim'
     Plug 'tpope/vim-obsession'
-    Plug 'nacitar/a.vim'
-    Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'derekwyatt/vim-fswitch'
     Plug 'rhysd/vim-clang-format'
+    Plug 'junegunn/seoul256.vim'
+    Plug 'junegunn/limelight.vim'
+    Plug 'junegunn/goyo.vim'
+    Plug 'vimwiki/vimwiki'
+    Plug 'plasticboy/vim-markdown'
+    Plug 'keith/swift.vim'
+    Plug 'jackguo380/vim-lsp-cxx-highlight'
 call plug#end()
 
 """"plugin settings""""
 
-"vim-colorschemes
+""vim-colorschemes
 colorscheme hybrid
 
-" Use deoplete.
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#clang#libclang_path = '/usr/local/Cellar/llvm/7.0.1/lib/libclang.dylib'
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-"Use neosnippet
-let g:neosnippet#enable_completed_snippet = 1
-" Plugin key-mappings.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
+""seoul256
+"let g:seoul256_background = 237
+"colo seoul256
 
-" SuperTab like snippets' behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-     \ "\<Plug>(neosnippet_expand_or_jump)"
-     \: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-     \ "\<Plug>(neosnippet_expand_or_jump)"
-     \: "\<TAB>"
 
-" For conceal markers.
-if has('conceal')
-      set conceallevel=2 concealcursor=niv
-  endif
-
-"Use NERDTree
-let NERDTreeQuitOnOpen=1
-let NERDTreeWinSize=25
-let NERDTreeQuitOnOpen=0
-map <C-n> :NERDTreeToggle<CR>
-
-" " Add spaces after comment delimiters by default
-  let g:NERDSpaceDelims = 1
-" " Use compact syntax for prettified multi-line comments
-"   let g:NERDCompactSexyComs = 1
-" " Align line-wise comment delimiters flush left instead of following code
-  let g:NERDDefaultAlign = 'left'
-
-"python highlight
-let python_highlight_all=1
-
-"vim-obsession
+""vim-obsession
 nnoremap <leader>os :Obsess<CR>
 
-"a.vim
-map <C-a> :A<CR>
 
+""vim-fswitch
+au! BufEnter *.{m,mm,c,cc,cpp} let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = './,../include,../inc,reg:/src/include/'
+au! BufEnter *.{h,hpp} let b:fswitchdst = 'm,mm,c,cc,cpp' | let b:fswitchlocs = './,../src,../source,reg:/include/src/'
+map <C-a> :FSHere<CR>
+nmap <silent> <Leader>ah :FSSplitBelow<cr>
+nmap <silent> <Leader>av :FSSplitRight<cr>
 
-
-
-
-
-
+""fzf-vim
+let g:fzf_preview_window = ['up:40%:hidden', 'ctrl-/']

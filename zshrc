@@ -96,10 +96,13 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 export PATH=$PATH:"."
 
-export EDITOR='vim'
-export VISUAL='vim'
-set -o vi
 alias ls="ls -G"
+
+export EDITOR='nvim'
+export VISUAL='nvim'
+set -o vi
+alias vi='nvim'
+alias vim="nvim"
 
 export FBANDROID_DIR=/Users/zackzhu/fbsource/fbandroid
 alias quicklog_update=/Users/zackzhu/fbsource/fbandroid/scripts/quicklog/quicklog_update.sh

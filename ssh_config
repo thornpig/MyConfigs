@@ -1,12 +1,19 @@
+Host sb
+    HostName devvm3296.vll0.facebook.com
 Host dev
-    HostName devvm399.atn1.facebook.com
-# used to setting up tunnel for clipper
+    HostName devvm1703.vll1.facebook.com
+Host sb-clipper
+  ControlMaster no
+  ControlPath none
+  ExitOnForwardFailure yes
+  HostName devvm1285.ftw3.facebook.com
+  RemoteForward 8376 localhost:8376
 Host dev-clipper
   ControlMaster no
   ControlPath none
   ExitOnForwardFailure yes
-  HostName devvm399.atn1.facebook.com
-  RemoteForward 8377 localhost:8377
+  HostName devvm1703.vll1.facebook.com
+  RemoteForward 8376 localhost:8376
 Host *
     XAuthLocation /opt/X11/bin/xauth
 

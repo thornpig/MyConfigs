@@ -97,21 +97,14 @@ vnoremap <leader>y :OSCYank<CR>
 
 "color schemes
 set background=dark
-"colorscheme nord
-
-"lua << EOF
-"vim.g.nord_disable_background = true
-"require('nord').set()
-"EOF
-
 lua << EOF
-local nightfox = require('nightfox')
-nightfox.setup({
-  fox = "nordfox", -- change the colorscheme to use nordfox
-  transparent = true,
+require('nightfox').setup({
+  options = {
+    transparent = true,
+  }
 })
-nightfox.load()
 EOF
+colorscheme nordfox
 
 "python highlight
 let python_highlight_all=1
@@ -261,7 +254,7 @@ lua <<EOF
 
 
   require'nvim-treesitter.configs'.setup {
-    ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+    ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
     ignore_install = {}, -- List of parsers to ignore installing
     highlight = {

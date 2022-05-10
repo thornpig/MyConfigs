@@ -35,5 +35,9 @@
 
 # install eternal terminal
 
-# macos dock install hide/show
-defaults write com.apple.dock autohide-delay -int 0;defaults write com.apple.dock autohide-time-modifier -float 1;killall Dock
+# macos general settings
+  * dock install hide/show
+    - defaults write com.apple.dock autohide-delay -int 0;defaults write com.apple.dock autohide-time-modifier -float 1;killall Dock
+  * keyboard fast repeat and short delay
+  * watch unlock
+

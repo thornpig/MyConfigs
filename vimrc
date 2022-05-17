@@ -11,13 +11,6 @@ if (has("termguicolors"))
   set termguicolors
 endif
 
-"set t_Co=256
-""set termguicolors
-"if &term =~# '^screen'
-    "let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    "let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-"endif
-
 "highlight the column past the width limit (usually 80)
 set colorcolumn=81
 
@@ -82,8 +75,8 @@ call plug#begin('~/.vim/plugged')
     Plug 'hrsh7th/cmp-buffer'
     Plug 'hrsh7th/cmp-path'
     Plug 'hrsh7th/cmp-cmdline'
-    Plug 'saadparwaiz1/cmp_luasnip'
-    Plug 'L3MON4D3/LuaSnip'
+    Plug 'hrsh7th/cmp-vsnip'
+    Plug 'hrsh7th/vim-vsnip'
     Plug 'p00f/nvim-ts-rainbow'
     Plug 'EdenEast/nightfox.nvim'
     Plug 'theHamsta/nvim-treesitter-pairs'
@@ -116,6 +109,7 @@ nnoremap <leader>os :Obsess<CR>
 map <C-a> :A<CR>
 
 ""fzf-vim
+let g:fzf_history_dir = '~/.fzf-history'
 let g:fzf_preview_window = ['up:50%:wrap', 'ctrl-/']
 nnoremap <leader>ff :Files!<cr>
 nnoremap <leader>fg :Rg!<cr>
@@ -174,15 +168,12 @@ lua <<EOF
   cmp.setup({
     snippet = {
       expand = function(args)
-        require('luasnip').lsp_expand(args.body)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
       end,
     },
     mapping = {
-      ['<C-p>'] = cmp.mapping.select_prev_item(),
-      ['<C-n>'] = cmp.mapping.select_next_item(),
-      ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-k>'] = cmp.mapping.select_prev_item(),
+      ['<C-j>'] = cmp.mapping.select_next_item(),
       ['<C-e>'] = cmp.mapping.close(),
       ['<CR>'] = cmp.mapping.confirm {
         behavior = cmp.ConfirmBehavior.Replace,
@@ -191,8 +182,6 @@ lua <<EOF
       ['<Tab>'] = function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
-        elseif luasnip.expand_or_jumpable() then
-          luasnip.expand_or_jump()
         else
           fallback()
         end
@@ -200,8 +189,6 @@ lua <<EOF
       ['<S-Tab>'] = function(fallback)
         if cmp.visible() then
           cmp.select_prev_item()
-        elseif luasnip.jumpable(-1) then
-          luasnip.jump(-1)
         else
           fallback()
         end
@@ -209,13 +196,14 @@ lua <<EOF
     },
     sources = {
       { name = 'nvim_lsp' },
-      { name = 'luasnip' }, -- For luasnip users.
+      { name = 'vsnip' },
+      { name = 'path' },
       { 
         name = 'buffer',
-        options = {
-        get_bufnrs = function()
-          return vim.api.nvim_list_bufs()
-        end
+        option = {
+          get_bufnrs = function()
+            return vim.api.nvim_list_bufs()
+          end
         }
       },
     }
@@ -224,6 +212,7 @@ lua <<EOF
   -- Use buffer source for `/` (if you enabled `native_menu`, this wont work anymore).
   cmp.setup.cmdline('/', {
     sources = {
+      { name = 'path' },
       { name = 'buffer' }
     }
   })
@@ -260,10 +249,6 @@ lua <<EOF
     highlight = {
       enable = true,              -- false will disable the whole extension
       disable = {},  -- list of language that will be disabled
-      -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-      -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-      -- Using this option may slow down your editor, and you may see some duplicate highlights.
-      -- Instead of true it can also be a list of languages
       additional_vim_regex_highlighting = false,
     },
     -- Setup nvim-treesitter-pairs

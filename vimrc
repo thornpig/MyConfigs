@@ -53,7 +53,7 @@ function! Formatonsave()
   let l:formatdiff = 1
   py3f /usr/local/share/clang/clang-format.py
 endfunction
-autocmd BufWritePre *.h,*.cc,*.cpp call Formatonsave()
+autocmd BufWritePre *.h,*.cc,*.cpp,*.c call Formatonsave()
 
 
 """"install plugins""""
@@ -111,12 +111,19 @@ map <C-a> :A<CR>
 ""fzf-vim
 let g:fzf_history_dir = '~/.fzf-history'
 let g:fzf_preview_window = ['up:50%:wrap', 'ctrl-/']
+
+" Rg searches file content only (default includes file name)
+command! -bang -nargs=* Rg call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:50%:wrap', 'ctrl-/'), <bang>0)
+" Rg search cursor word
+command! -bang -nargs=* RgCursor call fzf#vim#grep('rg --column --line-number --no-heading --color=always --smart-case '.shellescape(expand('<cword>')), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:50%:wrap', 'ctrl-/'), <bang>0)
+
 nnoremap <leader>ff :Files!<cr>
 nnoremap <leader>fg :Rg!<cr>
+nnoremap <leader>fG :RgCursor!<cr>
+" Rg search visual mode
+vnoremap <leader>fg y:exec 'Rg! '. escape(@", '/\()[]{}?.')<CR>
 nnoremap <leader>fb :Buffers!<cr>
 nnoremap <leader>fh :History!<cr>
-" Rg searches file content only (default includes file name)
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'up:50%:wrap', 'ctrl-/'), <bang>0)
 
 "nvim-lspconfig
 lua << EOF

@@ -1,5 +1,7 @@
 """"built-in settings""""
 
+let g:python3_host_prog = '/usr/local/bin/python3'
+
 "change leader key
 let mapleader = ","
 
@@ -217,15 +219,16 @@ lua <<EOF
   })
 
   -- Use buffer source for `/` (if you enabled `native_menu`, this wont work anymore).
-  cmp.setup.cmdline('/', {
+  cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
     sources = {
-      { name = 'path' },
       { name = 'buffer' }
     }
   })
 
   -- Use cmdline & path source for ':' (if you enabled `native_menu`, this wont work anymore).
   cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
     sources = cmp.config.sources({
       { name = 'path' }
     }, {
@@ -235,7 +238,7 @@ lua <<EOF
 
 
   -- Setup lspconfig.
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
   require'lspconfig'.ccls.setup {
     capabilities = capabilities,
     init_options = {

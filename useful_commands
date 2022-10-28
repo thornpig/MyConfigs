@@ -1,0 +1,9 @@
+# check drive debug info
+[root@tapehead0156.pnb4 ~]# robocop_util debug-manual-get /v1/drives -j
+
+
+# pull headnode info at scale
+$ mkdir /tmp/somedir; cd /tmp/somedir
+$ icicle ls -e vll | parallel 'L={}; H=$(icicle ls $L | shuf | head -n1); sush $H "robocop_util node-cards -j" > $L'
+$ for H in *; do jq -r '.[] | (.type + " " + .location + " "  + .state)' $H | sed "s/^/$H /"; done  | grep noEthernet
+

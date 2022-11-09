@@ -1,6 +1,6 @@
 """"built-in settings""""
 
-let g:python3_host_prog = '/usr/local/bin/python3'
+let g:python3_host_prog = '/usr/bin/python3.8'
 
 "change leader key
 let mapleader = ","
@@ -49,11 +49,11 @@ nnoremap d "_d
 vnoremap d "_d
 
 "clang-format mapping
-" map <leader>f :py3f /usr/local/share/clang/clang-format.py<cr>
-" " imap <C-leader-f> <c-o>:py3f /usr/local/share/clang/clang-format.py<cr>
+" map <leader>f :pyf /usr/local/share/clang/clang-format.py<cr>
+" " imap <C-leader-f> <c-o>:pyf /usr/local/share/clang/clang-format.py<cr>
 function! Formatonsave()
   let l:formatdiff = 1
-  py3f /usr/local/share/clang/clang-format.py
+  pyf /usr/local/share/clang/clang-format.py
 endfunction
 autocmd BufWritePre *.h,*.cc,*.cpp,*.c call Formatonsave()
 

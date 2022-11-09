@@ -107,7 +107,8 @@ set -o vi
 alias vi='nvim'
 alias vim='nvim'
 
-alias python=python3
+alias python3=/usr/bin/python3.8
+alias python=/usr/bin/python3.8
 
 # Colorize the ls output
 alias ls='ls --color=auto'

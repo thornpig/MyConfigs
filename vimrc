@@ -48,15 +48,12 @@ set shiftwidth=2
 nnoremap d "_d
 vnoremap d "_d
 
-"clang-format mapping
-" map <leader>f :pyf /usr/local/share/clang/clang-format.py<cr>
-" " imap <C-leader-f> <c-o>:pyf /usr/local/share/clang/clang-format.py<cr>
-function! Formatonsave()
+"auto formatting
+function! ClangFormatonsave()
   let l:formatdiff = 1
   pyf /usr/local/share/clang/clang-format.py
 endfunction
-autocmd BufWritePre *.h,*.cc,*.cpp,*.c call Formatonsave()
-
+autocmd BufWritePre *.h,*.cc,*.cpp,*.c call ClangFormatonsave()
 
 """"install plugins""""
 call plug#begin('~/.vim/plugged')
@@ -82,10 +79,14 @@ call plug#begin('~/.vim/plugged')
     Plug 'p00f/nvim-ts-rainbow'
     Plug 'EdenEast/nightfox.nvim'
     Plug 'theHamsta/nvim-treesitter-pairs'
+    Plug 'rust-lang/rust.vim'
 call plug#end()
 
 
 """"plugin settings""""
+
+"rust-vim"
+let g:rustfmt_autosave = 1
 
 "vim-oscyank
 vnoremap <leader>y :OSCYank<CR>
@@ -238,8 +239,10 @@ lua <<EOF
 
 
   -- Setup lspconfig.
+  local nvim_lsp = require'lspconfig'
   local capabilities = require('cmp_nvim_lsp').default_capabilities()
-  require'lspconfig'.ccls.setup {
+
+  nvim_lsp.ccls.setup {
     capabilities = capabilities,
     init_options = {
       highlight = {
@@ -251,7 +254,31 @@ lua <<EOF
     }
   }
 
+  nvim_lsp.rust_analyzer.setup {
+    capabilities = capabilities,
+    root_dir = nvim_lsp.util.root_pattern("rust-project.json"),
+    settings = {
+      ["rust-analyzer"] = {
+        imports = {
+          granularity = {
+              group = "module",
+          },
+          prefix = "self",
+        },
+        cargo = {
+          buildScripts = {
+              enable = true,
+          },
+        },
+        procMacro = {
+          enable = true
+        },
+      }
+    }
+  }
 
+
+  -- Setup treesitter.
   require'nvim-treesitter.configs'.setup {
     ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)

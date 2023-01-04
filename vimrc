@@ -108,7 +108,7 @@ let python_highlight_all=1
 "vim-obsession
 nnoremap <leader>os :Obsess<CR>
 
-"a.logServerRpcExceptionvim
+"a.vim
 map <C-a> :A<CR>
 
 ""fzf-vim
